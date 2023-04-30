@@ -17,7 +17,7 @@ resource "aws_lambda_function" "function" {
   runtime       = local.function_runtime
   timeout       = local.function_timeout_in_seconds
 
-  filename         = "origin.zip"
+  filename         = "main.zip"
   source_code_hash = data.archive_file.main.output_base64sha256
 
   role = aws_iam_role.function_role.arn
@@ -38,7 +38,7 @@ resource "aws_lambda_function" "function" {
 
 data "archive_file" "main" {
   type        = "zip"
-  source_dir = "${path.module}/bin"
+  source_dir = "${path.module}/archive"
   output_path = "${path.module}/main.zip"
 }
 
