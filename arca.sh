@@ -25,7 +25,7 @@ function arca_init() {
     # Search and replace "origin" with project name. Search explicit files.
     files=( "add_policy.sh" "build.sh" "aws.tf" "providers.tf" "application.yml" "root-policy.yml" "secrets.yml" "origin.go" )
     for file in "${files[@]}"; do
-        sed -i -e "s/origin/$1/g" "$1/$file"
+        find "$1" -type f -name '$file' -exec sed -i -e "s/origin/$1/g" {} \;
     done
 #    find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
 #    find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
