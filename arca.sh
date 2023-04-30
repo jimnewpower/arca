@@ -23,25 +23,30 @@ function arca_init() {
     cp -R origin "$1"
 
     # Search and replace "origin" with project name. Search explicit files.
-    files=( "add_policy.sh" "build.sh" "aws.tf" "providers.tf" "application.yml" "root-policy.yml" "secrets.yml" "origin.go" )
-    for file in "${files[@]}"; do
-        find "$1" -type f -name '$file' -exec sed -i -e "s/origin/$1/g" {} \;
-    done
-#    find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'aws.tf' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'providers.tf' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'application.yml' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'root-policy.yml' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'secrets.yml' -exec sed -i -e "s/origin/$1/g" {} \;
-#    find "$1" -type f -name 'origin.go' -exec sed -i -e "s/origin/$1/g" {} \;
+#    files=( "add_policy.sh" "build.sh" "aws.tf" "providers.tf" "application.yml" "root-policy.yml" "secrets.yml" "origin.go" )
+#    for file in "${files[@]}"; do
+#        find "$1" -type f -name '$file' -exec sed -i -e "s/origin/$1/g" {} \;
+#    done
+    find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'aws.tf' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'providers.tf' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'application.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'root-policy.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'secrets.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'go.mod' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'origin.go' -exec sed -i -e "s/origin/$1/g" {} \;
 
     # Rename the go source directory and file
     mv "$1/src/origin" "$1/src/$1"
     mv "$1/src/$1/origin.go" "$1/src/$1/$1.go"
 
-    # Run go mod init
-
+    # Search for origin in files
+    if [[ $(rg origin "$1") ]]; then
+        echo "Error: origin found in files:"
+        rg origin "$1"
+        return 1
+    fi
 
     # Print success message
     echo "Project $1 has been initialized."
