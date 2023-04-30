@@ -14,7 +14,6 @@ cp ../bin/origin .
 cp ../cert/conjur-dev.pem .
 zip origin.zip origin conjur-dev.pem
 rm origin conjur-dev.pem
-less origin.zip
 cd ..
 
 echo "Contents of bin/"
