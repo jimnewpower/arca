@@ -14,25 +14,31 @@ function arca_init() {
         return 1
     fi
 
+    # Clean origin directory
+    cd origin
+    make clean
+    cd ..
+
     # Create project directory
     cp -R origin "$1"
 
-    # Search and replace "origin" with project name
-    find "$1" -type f -name 'add_policy.sh' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'build.sh' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'aws.tf' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'providers.tf' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'application.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'root-policy.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'secrets.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
-    find "$1" -type f -name 'origin.go' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    # Search and replace "origin" with project name. Search explicit files.
+    files=( "add_policy.sh" "build.sh" "aws.tf" "providers.tf" "application.yml" "root-policy.yml" "secrets.yml" "origin.go" )
+    for file in "${files[@]}"; do
+        sed -i -e "s/origin/$1/g" "$1/$file"
+    done
+#    find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'aws.tf' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'providers.tf' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'application.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'root-policy.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'secrets.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+#    find "$1" -type f -name 'origin.go' -exec sed -i -e "s/origin/$1/g" {} \;
 
+    # Rename the go source directory and file
     mv "$1/src/origin" "$1/src/$1"
     mv "$1/src/$1/origin.go" "$1/src/$1/$1.go"
-    
-    # rename origin.go to projectname.go
-#    filename="$1.go"
-#    find "$1" -type f -name 'origin.go' -exec mv {} '${filename}' \;
 
     # Run go mod init
 
