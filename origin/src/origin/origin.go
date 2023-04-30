@@ -1,4 +1,4 @@
-package main
+package origin
 
 import (
     "context"
@@ -79,19 +79,19 @@ func query() (string) {
         panic(err)
 	}
 
-    secretValue, err := RetrieveSecret(conjur, "postgresDBApp/connectionstring")
+    secretValue, err := RetrieveSecret(conjur, "originApplication/connectionstring")
     if err != nil {
         panic(err)
     }
     dbHost := string(secretValue)
 
-	secretValue, err = RetrieveSecret(conjur, "postgresDBApp/username")
+	secretValue, err = RetrieveSecret(conjur, "originApplication/username")
     if err != nil {
         panic(err)
     }
     dbUser := string(secretValue)
 
-	secretValue, err = RetrieveSecret(conjur, "postgresDBApp/password")
+	secretValue, err = RetrieveSecret(conjur, "originApplication/password")
     if err != nil {
         panic(err)
     }

@@ -1,5 +1,4 @@
-main
-main.zip
+archive/
 bin/
 
 # Created by https://www.toptal.com/developers/gitignore/api/terraform,go
