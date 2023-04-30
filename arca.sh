@@ -25,11 +25,17 @@ function arca_init() {
     find "$1" -type f -name 'application.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'root-policy.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'secrets.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
-
     find "$1" -type f -name 'origin.go' -exec sed -i '' -e "s/origin/$1/g" {} \;
+
+    mv "$1/src/origin" "$1/src/$1"
+    mv "$1/src/$1/origin.go" "$1/src/$1/$1.go"
+    
     # rename origin.go to projectname.go
 #    filename="$1.go"
 #    find "$1" -type f -name 'origin.go' -exec mv {} '${filename}' \;
+
+    # Run go mod init
+
 
     # Print success message
     echo "Project $1 has been initialized."

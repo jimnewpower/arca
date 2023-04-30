@@ -3,7 +3,7 @@ variable "env_name" {
 }
 
 locals {
-  function_name               = "GoGetLogistics"
+  function_name               = "originApplication"
   function_handler            = "main"
   function_runtime            = "go1.x"
   function_timeout_in_seconds = 5
@@ -17,7 +17,7 @@ resource "aws_lambda_function" "function" {
   runtime       = local.function_runtime
   timeout       = local.function_timeout_in_seconds
 
-  filename         = "main.zip"
+  filename         = "origin.zip"
   source_code_hash = data.archive_file.main.output_base64sha256
 
   role = aws_iam_role.function_role.arn
