@@ -9,32 +9,34 @@ arca init <appName>
 # Add Conjur Policy
 ```bash
 cd <appName>
-add_policy.sh
+make policy
 ```
 
-# Copy files
-
-# Grep and sed to replace values
-Add `-i` after `sed` to make changes in place.
+# Build the source
 ```bash
-cd <appName>/src/<appName>
-grep -rl "originApplication" . | xargs sed '' 's/originApplication/<appName>/g'
-grep -rl "origin" . | xargs sed '' 's/origin/<appName>/g'
-grep -rl "conjur/authn-iam/dev" . | xargs sed '' 's/conjur\/authn-iam\/dev/<conjurAccount>/g'
-grep -rl "conjur/authn-iam" . | xargs sed '' 's/conjur\/authn-iam/<conjurAccount>/g'
-grep -rl "conjur" . | xargs sed '' 's/conjur/<conjurAccount>/g'
-grep -rl "prima" . | xargs sed '' 's/prima/<conjurAccount>/g'
-grep -rl "560732129735" . | xargs sed '' 's/560732129735/<conjurAccount>/g'
-grep -rl "secretApp" . | xargs sed '' 's/secretApp/<conjurAccount>/g'
-grep -rl "TrustedWithSecret" . | xargs sed '' 's/TrustedWithSecret/<conjurAccount>/g'
-grep -rl "pgUser" . | xargs sed '' 's/pgUser/<pgUser>/g'
-grep -rl "pgPassword" . | xargs sed '' 's/pgPassword/<pgPassword>/g'
-grep -rl "connectionString" . | xargs sed '' 's/connectionString/<connectionString>/g'
-cd ../..
+cd <appName>
+make clean build
 ```
+
+# Deploy the lambda
+```bash
+cd <appName>
+make lambda apply
+```
+
+# Add Function URL
+In `AWS -> Lambda`, go to `Configuration -> Function URL` and `Create function URL`.
+
+# Links
+- [Conjur Admin](https://ec2-34-204-42-151.compute-1.amazonaws.com)
+- [Jenkins]()
 
 # Initialize Go Module
 ```bash
+cd <appName>/src/main
+go mod init github.com/jimnewpower/arca
+go mod tidy
+
 cd <appName>/src/<appName>
 go mod init primalimited.com/origin
 
