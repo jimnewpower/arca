@@ -18,8 +18,19 @@ function arca_init() {
     cp -R origin "$1"
 
     # Search and replace "origin" with project name
-    find "$1" -type f -exec sed -i '' -e "s/origin/$1/g" {} \;
-    
+    find "$1" -type f -name 'add_policy.sh' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'build.sh' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'aws.tf' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'providers.tf' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'application.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'root-policy.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'secrets.yml' -exec sed -i '' -e "s/origin/$1/g" {} \;
+
+    find "$1" -type f -name 'origin.go' -exec sed -i '' -e "s/origin/$1/g" {} \;
+    # rename origin.go to projectname.go
+#    filename="$1.go"
+#    find "$1" -type f -name 'origin.go' -exec mv {} '${filename}' \;
+
     # Print success message
     echo "Project $1 has been initialized."
     return 0
