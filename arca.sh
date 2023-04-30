@@ -15,17 +15,11 @@ function arca_init() {
     fi
 
     # Create project directory
-    mkdir "$1"
-    cd "$1"
+    cp -R origin "$1"
 
-    # Create necessary files and directories
-    touch README.md
-    echo "# $1" >> README.md
-    mkdir src
-    mkdir bin
-    mkdir policy
-    mkdir tests
-
+    # Search and replace "origin" with project name
+    find "$1" -type f -exec sed -i '' -e "s/origin/$1/g" {} \;
+    
     # Print success message
     echo "Project $1 has been initialized."
     return 0
