@@ -40,7 +40,18 @@ function arca_init() {
     fi
 
     # Print success message
-    echo "Project $1 has been initialized."
+    echo "Project $1 has been initialized. Lambda name is $1Application."
+    tree $1
+
+    echo ""
+    echo "Next steps:"
+    echo "1. cd $1"
+    echo "2. make policy"
+    echo "3. Set secrets in Conjur (conjur set-secret -i $1Application/connectionstring -v connectionstring)"
+    echo "4. make clean build"
+    echo "5. make lambda apply"
+    echo "6. Add function URL (AWS -> Lambda -> Functions -> $1 -> Configuration -> Function URL -> Create function URL)."
+
     return 0
 }
 
