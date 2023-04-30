@@ -14,9 +14,9 @@ make policy
 
 Set secrets:
 ```bash
-conjur set-secret -i originApplication/connectionstring -v prima.cvrj95nytzmd.us-west-2.rds.amazonaws.com
-conjur set-secret -i originApplication/username -v postgres
-conjur set-secret -i originApplication/password -v TrHa0C0a3PoQSXAd0OPS
+conjur set-secret -i originApplication/connectionstring -v connectionstring
+conjur set-secret -i originApplication/username -v username
+conjur set-secret -i originApplication/password -v password
 ```
 
 # Build the source
