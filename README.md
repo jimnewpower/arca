@@ -1,9 +1,14 @@
 # arca
 A chest or strong box used in ancient times as a receptacle for money or valuables.
 
-# Initialize a Project
+# Initialize the environment
 ```bash
-arca init <appName>
+arca init
+```
+
+# Clone the origin project
+```bash
+arca create <projectname>
 ```
 
 # Add Conjur Policy
