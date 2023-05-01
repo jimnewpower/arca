@@ -18,9 +18,10 @@ lambda:
 apply:
 	cd deploy && terraform apply
 help:
-	@echo "clean: clean up"
-	@echo "policy: add policy"
-	@echo "build: build lambda"
-	@echo "lambda: deploy lambda"
-	@echo "apply: apply terraform"
-	@echo "help: help"
+	@echo "clean     clean up"
+	@echo "policy    add policy"
+	@echo "check     check policy"
+	@echo "build     build lambda"
+	@echo "lambda    deploy lambda"
+	@echo "apply     apply terraform"
+	@echo "help      help"
