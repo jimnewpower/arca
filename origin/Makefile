@@ -3,7 +3,7 @@ clean:
 	@-rm -f deploy/main
 	@-rm -f deploy/conjur-dev.pem
 	@-rm -f deploy/main.zip
-	@-rm -r ./config/env/env.sh
+	@-rm -f ./config/env/env.sh
 policy:
 	sh add_policy.sh
 build:
@@ -12,3 +12,10 @@ lambda:
 	sh deploy.sh
 apply:
 	cd deploy && terraform apply
+help:
+	@echo "clean: clean up"
+	@echo "policy: add policy"
+	@echo "build: build lambda"
+	@echo "lambda: deploy lambda"
+	@echo "apply: apply terraform"
+	@echo "help: help"
