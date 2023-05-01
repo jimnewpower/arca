@@ -54,6 +54,11 @@ data "archive_file" "main" {
   output_path = "${path.module}/main.zip"
 }
 
+#resource "aws_lambda_function_url" "function" {
+#  function_name      = aws_lambda_function.test.function_name
+#  authorization_type = "NONE"
+#}
+
 resource "aws_iam_role" "function_role" {
   name = "${local.function_name}-${var.env_name}"
 
