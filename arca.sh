@@ -98,6 +98,7 @@ function arca_create() {
 
     rm -f "$1"/deploy/terraform.tfstate
     rm -f "$1"/deploy/terraform.tfstate.backup
+    rm -rf "$1"/deploy/.terraform
 
     find "$1" -type f -name 'env.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
