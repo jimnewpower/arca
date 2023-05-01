@@ -9,6 +9,7 @@ policy:
 build:
 	sh build.sh
 lambda:
+	@-mkdir -p config/env
 	sh deploy.sh
 apply:
 	cd deploy && terraform apply
