@@ -113,7 +113,7 @@ function arca_create() {
     find "$1" -type f -name 'lambdaFunctionURLPolicy.json' -exec sed -i -e "s/origin/$1/g" {} \;
 
     # Search for origin in files
-    if [[ $(rg origin "$1") ]]; then
+    if [[ $(grep -r "origin" "$1"/*) ]]; then
         echo "Error: origin found in files:"
         rg origin "$1"
         return 1
