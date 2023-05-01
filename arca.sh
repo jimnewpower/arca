@@ -137,9 +137,9 @@ function arca_help() {
     echo "Usage: arca.sh <command> <project>"
     echo ""
     echo "Commands:"
-    echo "  init              Initialize the environment."
-    echo "  create <project>  Initialize a new project (clones origin project, and renames everything)."
-    echo "  help              Print this help message."
+    echo "    init              Initialize the environment."
+    echo "    create <project>  Initialize a new project (clones origin project, and renames everything)."
+    echo "    help              Print this help message."
     echo ""
     return 0
 }
@@ -166,8 +166,6 @@ case $1 in
         arca_help
         ;;
     *)
-        echo "Invalid command: $1"
-        echo "Usage: arca.sh init <name>"
-        exit 1
+        arca_help
         ;;
 esac
