@@ -66,9 +66,11 @@ function arca_init() {
     
     tree
 
+    echo ""
+    echo "make commands in origin directory:"
     cd origin
     make help
-    
+
     return 0
 }
 
