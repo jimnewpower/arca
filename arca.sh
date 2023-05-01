@@ -55,16 +55,29 @@ function arca_init() {
     return 0
 }
 
-# Check if command argument is provided
-if [[ $# -lt 2 ]]; then
-    echo "Please provide a command and a project name."
-    exit 1
+function arca_help() {
+    echo "Usage: arca.sh <command> <project>"
+    echo ""
+    echo "Commands:"
+    echo "  init <project>  Initialize a new project."
+    echo "  help            Print this help message."
+    echo ""
+    return 0
+}
+
+# Check if no arguments
+if [[ $# -eq 0 ]]; then
+    arca_help
+    exit 0
 fi
 
 # Call the appropriate function based on the command provided
 case $1 in
     "init")
         arca_init "$2"
+        ;;
+    "help")
+        arca_help
         ;;
     *)
         echo "Invalid command: $1"
