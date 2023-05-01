@@ -64,6 +64,11 @@ function arca_init() {
 
     aws configure
     
+    tree
+
+    cd origin
+    make help
+    
     return 0
 }
 
