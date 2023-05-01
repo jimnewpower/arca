@@ -1,1 +1,3 @@
-.secrets
+.env
+env.json
+env.sh
