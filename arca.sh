@@ -115,8 +115,6 @@ function arca_create() {
         return 1
     fi
 
-    cp .env "$1"/deploy
-
     # Print success message
     echo "Project $1 has been initialized. Lambda name is $1Application."
     tree $1
