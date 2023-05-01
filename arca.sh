@@ -102,6 +102,7 @@ function arca_create() {
 
     find "$1" -type f -name 'env.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'check_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'aws.tf' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'providers.tf' -exec sed -i -e "s/origin/$1/g" {} \;

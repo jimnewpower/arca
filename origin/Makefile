@@ -8,6 +8,8 @@ clean:
 	@-rm -f ./config/env/env.sh
 policy:
 	sh add_policy.sh
+check:
+	sh check_policy.sh
 build:
 	sh build.sh
 lambda:
