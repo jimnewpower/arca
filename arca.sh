@@ -96,6 +96,9 @@ function arca_create() {
     # Create project directory
     cp -R origin "$1"
 
+    rm -f "$1"/deploy/terraform.tfstate
+    rm -f "$1"/deploy/terraform.tfstate.backup
+
     find "$1" -type f -name 'env.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'add_policy.sh' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'build.sh' -exec sed -i -e "s/origin/$1/g" {} \;
