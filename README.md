@@ -36,7 +36,7 @@ In `AWS -> Lambda`, go to `Configuration -> Function URL` and `Create function U
 
 # Links
 - [Conjur Admin](https://ec2-34-204-42-151.compute-1.amazonaws.com)
-- [Jenkins]()
+- [Jenkins](ec2-18-237-228-26.us-west-2.compute.amazonaws.com:8080)
 
 # Initialize Go Module
 ```bash
