@@ -138,7 +138,7 @@ function arca_help() {
     echo ""
     echo "Commands:"
     echo "  init              Initialize the environment."
-    echo "  create <project>  Initialize a new project."
+    echo "  create <project>  Initialize a new project (clones origin project, and renames everything)."
     echo "  help              Print this help message."
     echo ""
     return 0
