@@ -1,7 +1,78 @@
 #!/bin/bash
 
+function conjur_get_api_key() {
+  curl -k -s -X GET -u admin:"CyberArk_2023!" ${CONJUR_URL}/authn/prima/login
+}
+
 # Define function to initialize the project
 function arca_init() {
+    # Initialize the environment
+    echo "Initializing the environment..."
+
+    # Check if env.json exists
+    if [[ -f "env.json" ]]; then
+        conjur_account=$(jq -r '.CONJUR_ACCOUNT' env.json)
+        conjur_appliance_url=$(jq -r '.CONJUR_APPLIANCE_URL' env.json)
+    fi
+
+    read -r -p "CONJUR_ACCOUNT [$conjur_account]: " account
+    # if account is not empty and is not equal to conjur_account, use account
+    if [[ ! -z "$account" && "$account" != "$conjur_account" ]]; then
+        conjur_account=$account
+    fi
+
+    read -r -p "CONJUR_APPLIANCE_URL [$conjur_appliance_url]: " url
+    # if url is not empty and is not equal to conjur_appliance_url, use url
+    if [[ ! -z "$url" && "$url" != "$conjur_appliance_url" ]]; then
+        conjur_appliance_url=$url
+    fi
+
+    # Debugging statement
+    echo "conjur_account=$conjur_account"
+    echo "conjur_appliance_url=$conjur_appliance_url"
+
+    # Check if the variables are empty
+    if [[ -z "$conjur_account" ]]; then
+        echo "ERROR: CONJUR_ACCOUNT is empty"
+        return 1
+    fi
+
+    if [[ -z "$conjur_appliance_url" ]]; then
+        echo "ERROR: CONJUR_APPLIANCE_URL is empty"
+        return 1
+    fi
+
+    # Generate the script to set the environment variables in terraform.
+    envscript="env.sh"
+    echo "#!/bin/sh" > $envscript
+    echo " env.sh" >> $envscript
+    echo "" >> $envscript
+    echo "# Change the contents of this output to get the environment variables" >> $envscript
+    echo "# of interest. The output must be valid JSON, with strings for both" >> $envscript
+    echo "# keys and values." >> $envscript
+    echo "cat <<EOF" >> $envscript
+    echo "{" >> $envscript
+    echo "  \"LAMBDA_FUNCTION\" : \"originApplication\"," >> $envscript
+    echo "  \"LAMBDA_FUNCTION_HANDLER\" : \"main\"," >> $envscript
+    echo "  \"CONJUR_ACCOUNT\" : \"$conjur_account\"," >> $envscript
+    echo "  \"CONJUR_APPLIANCE_URL\" : \"$conjur_appliance_url\"," >> $envscript
+    echo "  \"CONJUR_CERT_FILE\" : \"./conjur-dev.pem\"," >> $envscript
+    echo "  \"CONJUR_AUTHN_LOGIN\" : \"admin\"," >> $envscript
+    echo "  \"CONJUR_AUTHN_API_KEY\" : \"$(conjur_get_api_key)\"," >> $envscript
+    echo "  \"CONJUR_AUTHENTICATOR\" : \"authn-iam\"," >> $envscript
+    echo "  \"DB_PORT\" : \"5432\"" >> $envscript
+    echo "}" >> $envscript
+    echo "EOF" >> $envscript
+
+    chmod u+x $envscript
+
+    aws configure
+    
+    return 0
+}
+
+# Define function to initialize the project
+function arca_create() {
     # Check if project name is provided
     if [[ $# -eq 0 ]]; then
         echo "Please provide a project name."
@@ -29,8 +100,10 @@ function arca_init() {
     find "$1" -type f -name 'application.yml' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'root-policy.yml' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'secrets.yml' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'users.yml' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'go.mod' -exec sed -i -e "s/origin/$1/g" {} \;
     find "$1" -type f -name 'main.go' -exec sed -i -e "s/origin/$1/g" {} \;
+    find "$1" -type f -name 'lambdaFunctionURLPolicy.json' -exec sed -i -e "s/origin/$1/g" {} \;
 
     # Search for origin in files
     if [[ $(rg origin "$1") ]]; then
@@ -38,6 +111,8 @@ function arca_init() {
         rg origin "$1"
         return 1
     fi
+
+    cp .env "$1"/deploy
 
     # Print success message
     echo "Project $1 has been initialized. Lambda name is $1Application."
@@ -59,8 +134,9 @@ function arca_help() {
     echo "Usage: arca.sh <command> <project>"
     echo ""
     echo "Commands:"
-    echo "  init <project>  Initialize a new project."
-    echo "  help            Print this help message."
+    echo "  init              Initialize the environment."
+    echo "  create <project>  Initialize a new project."
+    echo "  help              Print this help message."
     echo ""
     return 0
 }
@@ -74,7 +150,14 @@ fi
 # Call the appropriate function based on the command provided
 case $1 in
     "init")
-        arca_init "$2"
+        arca_init
+        ;;
+    "create")
+        if [[ $# -eq 2 ]]; then
+            arca_create "$2"
+        else
+            arca_help
+        fi
         ;;
     "help")
         arca_help
