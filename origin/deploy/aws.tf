@@ -2,9 +2,21 @@ variable "env_name" {
   description = "Environment name"
 }
 
+# Run the script to get the environment variables of interest.
+# This is a data source, so it will run at plan time.
+data "external" "env" {
+  program = ["${path.module}/env.sh"]
+}
+
+# Show the results of running the data source. This is a map of environment
+# variable names to their values.
+output "env" {
+  value = data.external.env.result
+}
+
 locals {
-  function_name               = "originApplication"
-  function_handler            = "main"
+  function_name               = data.external.env.result["LAMBDA_FUNCTION"]
+  function_handler            = data.external.env.result["LAMBDA_FUNCTION_HANDLER"]
   function_runtime            = "go1.x"
   function_timeout_in_seconds = 5
 
@@ -25,13 +37,13 @@ resource "aws_lambda_function" "function" {
   environment {
     variables = {
       ENVIRONMENT = var.env_name
-      CONJUR_ACCOUNT = "prima"
-      CONJUR_APPLIANCE_URL = "https://ec2-34-204-42-151.compute-1.amazonaws.com"
-      CONJUR_CERT_FILE = "./conjur-dev.pem"
-      CONJUR_AUTHN_LOGIN = "admin"
-	    CONJUR_AUTHN_API_KEY = "18wv7sck9a66015fzsv3252qfvp23anzs81qkn4f916fbs3t228p4nb"
-      CONJUR_AUTHENTICATOR = "authn-iam"
-      PORT = "5432"
+      CONJUR_ACCOUNT = data.external.env.result["CONJUR_ACCOUNT"]
+      CONJUR_APPLIANCE_URL = data.external.env.result["CONJUR_APPLIANCE_URL"]
+      CONJUR_CERT_FILE = data.external.env.result["CONJUR_CERT_FILE"]
+      CONJUR_AUTHN_LOGIN = data.external.env.result["CONJUR_AUTHN_LOGIN"]
+      CONJUR_AUTHN_API_KEY = data.external.env.result["CONJUR_AUTHN_API_KEY"]
+      CONJUR_AUTHENTICATOR = data.external.env.result["CONJUR_AUTHENTICATOR"]
+      PORT = data.external.env.result["DB_PORT"]
     }
   }
 }
