@@ -1,0 +1,14 @@
+jim-home:jim@jim-Predator-PH317-54:~/develop/arca$ conjur append-policy -b root -f origin/policy/users.yml 
+{
+    "created_roles": {
+        "prima:host:BotApp/originApplication": {
+            "id": "prima:host:BotApp/originApplication",
+            "api_key": "1n35ck02y4ypdc3478wfxztcwfp2z1bbyq3ysm77f6tb4tb1nbpkem"
+        },
+        "prima:user:jim@BotApp": {
+            "id": "prima:user:jim@BotApp",
+            "api_key": "3wt54t92ekrgca48kswqddygh83k7ksnh365v7h61dberb82rd96gb"
+        }
+    },
+    "version": 10
+}
