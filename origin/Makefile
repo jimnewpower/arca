@@ -1,5 +1,7 @@
 clean:
 	@-rm -rf archive bin
+	@-rm -f deploy/archive/main
+	@-rm -f deploy/archive/conjur-dev.pem
 	@-rm -f deploy/main
 	@-rm -f deploy/conjur-dev.pem
 	@-rm -f deploy/main.zip
