@@ -15,12 +15,16 @@ import (
     "github.com/cyberark/conjur-api-go/conjurapi/authn"
 )
 
-type Vessel struct {
+type Food struct {
     ID        int
-    Name      string
-    Longitude float64
-    Latitude  float64
-    Status    string
+    FoodName  string
+    Calories  int
+    Protein   int
+    Carbs     int
+    Fat       int
+    Fiber     int
+    Vitamins  int
+    Minerals  int
 }
 
 type MyEvent struct {
@@ -52,19 +56,6 @@ func RetrieveSecret(conjur *conjurapi.Client, variableIdentifier string) ([]byte
 	if err != nil {
 		return nil, err
 	}
-
-    // Retrieve a secret into io.ReadCloser, then read into []byte.
-    // Alternatively, you can transfer the secret directly into secure memory,
-    // vault, keychain, etc.
-    // secretResponse, err := conjur.RetrieveSecretReader(variableIdentifier)
-    // if err != nil {
-    //     panic(err)
-    // }
-
-	// secretValue, err = conjurapi.ReadResponseBody(secretResponse)
-    // if err != nil {
-    //     panic(err)
-    // }
 
 	return secretValue, nil
 }
@@ -107,41 +98,33 @@ func query() (string) {
     }
     defer db.Close()
 
-    // Prepare the query statement
-    query := "SELECT id, name, longitude, latitude, status FROM ships"
-    stmt, err := db.Prepare(query)
+    // Query the database for all foods
+    rows, err := db.Query("SELECT * FROM nutrition")
     if err != nil {
-        log.Fatal("Failed to prepare query statement: ", err)
-    }
-    defer stmt.Close()
-
-    // Execute the query and process the results
-    rows, err := stmt.Query()
-    if err != nil {
-        log.Fatal("Failed to execute query: ", err)
+        log.Fatal(err)
     }
     defer rows.Close()
 
-    vessels := []Vessel{}
-
+    // Iterate over the results and create a slice of Food structs
+    var foods []Food
     for rows.Next() {
-        // Process each row of data
-        var v Vessel
-        if err := rows.Scan(&v.ID, &v.Name, &v.Longitude, &v.Latitude, &v.Status); err != nil {
-            log.Fatal("Failed to scan row: ", err)
+        var food Food
+        err := rows.Scan(&food.ID, &food.FoodName, &food.Calories, &food.Protein, &food.Carbs, &food.Fat, &food.Fiber, &food.Vitamins, &food.Minerals)
+        if err != nil {
+            log.Fatal(err)
         }
-        vessels = append(vessels, v)
+        foods = append(foods, food)
     }
     if err := rows.Err(); err != nil {
-        log.Fatal("Failed to process rows: ", err)
+        log.Fatal(err)
     }
 
-    data, err := json.MarshalIndent(vessels, "", "  ")
+    data, err := json.MarshalIndent(foods, "", "  ")
     return string(data)
 }
 
 func handleRequest(ctx context.Context, name MyEvent) (string, error) {
-	return fmt.Sprintf("Logistics query results:\n%s", query()), nil
+	return fmt.Sprintf("Query results:\n%s", query()), nil
 }
 
 func main() {
