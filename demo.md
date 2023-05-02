@@ -1,61 +1,61 @@
 # Demo
 
-> Show go code.
+### Show go code.
 
 ```bash
 ./arca.sh create demo
 ```
 
-> Show directory layout.
+### Show directory layout.
 
 ```bash
 make help
 ```
 
-> Talk about the make rules.
+### Talk about the make rules.
 
 ```bash
 make clean build
 ```
 
-> Talk about policy. Show policy files.
+### Talk about policy. Show policy files.
 
 ```bash
 make policy
 ```
 
-> Note the output from adding policy. Show the api_key.
+### Note the output from adding policy. Show the api_key.
 
 ```bash
 make check
 ```
 
-> Set secrets.
+### Set secrets.
 
 ```bash
 conjur set-secret -i originApplication/connectionstring -v connectionstring
 ```
 
-> Run check to view the secrets.
+### Run check to view the secrets.
 
 ```bash
 make check
 ```
 
-> Run the terraform plan.
+### Run the terraform plan.
 
 ```bash
 make lambda
 ```
 
-> Run the terraform apply.
+### Run the terraform apply.
 
 ```bash
 make apply
 ```
 
-> Show the lambda in AWS. Show configuration. Add Function URL.
+### Show the lambda in AWS. Show configuration. Add Function URL.
 
-> Make a modification in the go code, and rebuild/deploy.
+### Make a modification in the go code, and rebuild/deploy.
 
-> Make a modification in the database, and run the lambda again.
+### Make a modification in the database, and run the lambda again.
