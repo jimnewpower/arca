@@ -52,11 +52,15 @@ func GetConjurClient() (*conjurapi.Client, error) {
 }
 
 func RetrieveSecret(conjur *conjurapi.Client, variableIdentifier string) ([]byte, error) {
+    log.Println("Requesting secret value from Conjur for variable identifier: ", variableIdentifier);
+
 	// Retrieve a secret into []byte.
 	secretValue, err := conjur.RetrieveSecret(variableIdentifier)
 	if err != nil {
 		return nil, err
 	}
+
+    log.Println("Conjur returned a secret value: ", string(secretValue));
 
 	return secretValue, nil
 }
