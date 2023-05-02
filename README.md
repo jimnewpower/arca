@@ -16,10 +16,31 @@ arca init
 arca create <projectname>
 ```
 
-# Add Conjur Policy
+# Show make rules
 ```bash
-cd <appName>
+make help
+```
+
+# Build the go source
+```bash
+make clean build
+```
+
+# Add Conjur Policy
+Login as admin:
+```bash
+conjur logon --self-signed -a prima -p CyberArk_2023! -b https://ec2-34-204-42-151.compute-1.amazonaws.com -l admin
+```
+
+```bash
 make policy
+```
+
+Login as new host:
+```bash
+conjur logon --self-signed -a prima -b https://ec2-34-204-42-151.compute-1.amazonaws.com -l host/originApplication/560732129735/originApplication
+# Accept certificate, replace rc files. Then, copy the cert to the cert directory.
+cp ~/conjur-prima.pem ./cert/conjur-dev.pem
 ```
 
 Set secrets:
@@ -29,16 +50,35 @@ conjur set-secret -i originApplication/username -v username
 conjur set-secret -i originApplication/password -v password
 ```
 
-# Build the source
+Connection string:
 ```bash
-cd <appName>
-make clean build
+prima.cvrj95nytzmd.us-west-2.rds.amazonaws.com
 ```
 
-# Deploy the lambda
+Username:
 ```bash
-cd <appName>
-make lambda apply
+postgres
+```
+
+Password:
+```bash
+TrHa0C0a3PoQSXAd0OPS
+```
+
+Check policy:
+```bash
+make check
+```
+
+# Build and deploy the lambda
+```bash
+make lambda
+make apply
+```
+
+# View Conjur user info
+```bash
+conjur whoami && conjur list > list.txt && ../bin/tree
 ```
 
 # Add Function URL

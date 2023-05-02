@@ -11,7 +11,7 @@
 - !permit
   role: !group secrets
   resources: *secrets
-  privileges: [ read, execute ]
+  privileges: [ read, update, execute ]
 
 - !grant
   roles:
