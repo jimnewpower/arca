@@ -14,7 +14,7 @@ while true; do
             ;;
         [Nn]* ) 
             echo "Exiting. Please logon as admin and run again."
-            echo "e.g. conjur logon --self-signed -a prima -p <password> -b https://ec2-34-204-42-151.compute-1.amazonaws.com -l admin"
+            echo "e.g. conjur logon --self-signed -a prima -b https://ec2-34-204-42-151.compute-1.amazonaws.com -l admin"
             # Add your code for "No" case here
             exit
             ;;

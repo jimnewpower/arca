@@ -25,6 +25,7 @@ type Food struct {
     Fiber     int
     Vitamins  int
     Minerals  int
+    Notes     string
 }
 
 type MyEvent struct {
@@ -109,7 +110,7 @@ func query() (string) {
     var foods []Food
     for rows.Next() {
         var food Food
-        err := rows.Scan(&food.ID, &food.FoodName, &food.Calories, &food.Protein, &food.Carbs, &food.Fat, &food.Fiber, &food.Vitamins, &food.Minerals)
+        err := rows.Scan(&food.ID, &food.FoodName, &food.Calories, &food.Protein, &food.Carbs, &food.Fat, &food.Fiber, &food.Vitamins, &food.Minerals, &food.Notes)
         if err != nil {
             log.Fatal(err)
         }
