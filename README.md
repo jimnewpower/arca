@@ -62,7 +62,7 @@ postgres
 
 Password:
 ```bash
-TrHa0C0a3PoQSXAd0OPS
+odijfa-TrHa0C0a3PoQSXAd0OPS
 ```
 
 Check policy:
