@@ -1,5 +1,11 @@
 # Demo
 
+#### Show Conjur admin UI.
+
+#### Show CLI queries.
+
+#### Show Postman queries.
+
 #### Show database in pgAdmin.
 
 #### Show go code.
