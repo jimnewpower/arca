@@ -1,6 +1,11 @@
 # arca
 A chest or strong box used in ancient times as a receptacle for money or valuables.
 
+# Get certificate from Conjur server
+```bash
+openssl s_client -showcerts -connect localhost:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur_cert.pem
+```
+
 # Initialize the environment
 ```bash
 arca init
