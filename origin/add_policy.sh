@@ -12,4 +12,11 @@ append_application='../bin/cybr conjur append-policy -b originApplication -f ./c
 echo ${append_application}
 eval ${append_application}
 
-
+echo ""
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "TODO:"
+echo "1. Copy the api_key above into config/env/env.sh:"
+echo "2. Set secret values in Conjur: connectionstring, username, password"
+echo ""
+echo "Example: conjur set-secret -i originApplication/connectionstring -v connectionstring"
+echo ""
