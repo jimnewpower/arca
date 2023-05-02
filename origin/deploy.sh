@@ -4,20 +4,21 @@ read -r -p "api_key from created_roles: " api_key
 aws_account_number=$(aws sts get-caller-identity --query Account --output text)
 
 # Check if env.json exists
-if [[ -f "../env.json" ]]; then
-    conjur_account=$(jq -r '.CONJUR_ACCOUNT' env.json)
-    conjur_appliance_url=$(jq -r '.CONJUR_APPLIANCE_URL' env.json)
+if [ -f "../env.json" ]; then
+    env_file="../env.json"
+    conjur_account=$(jq -r '.CONJUR_ACCOUNT' "$env_file")
+    conjur_appliance_url=$(jq -r '.CONJUR_APPLIANCE_URL' "$env_file")
 fi
 
 read -r -p "Conjur account [$conjur_account]: " account
 # if account is not empty and is not equal to conjur_account, use account
-if [[ ! -z "$account" && "$account" != "$conjur_account" ]]; then
+if [ ! -z "$account" && "$account" != "$conjur_account" ]; then
     conjur_account=$account
 fi
 
 read -r -p "Conjur appliance URL [$conjur_appliance_url]: " url
 # if url is not empty and is not equal to conjur_appliance_url, use url
-if [[ ! -z "$url" && "$url" != "$conjur_appliance_url" ]]; then
+if [ ! -z "$url" && "$url" != "$conjur_appliance_url" ]; then
     conjur_appliance_url=$url
 fi
 
