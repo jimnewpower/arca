@@ -12,13 +12,13 @@ fi
 
 read -r -p "Conjur account [$conjur_account]: " account
 # if account is not empty and is not equal to conjur_account, use account
-if [ ! -z "$account" && "$account" != "$conjur_account" ]; then
+if [[ ! -z "$account" && "$account" != "$conjur_account" ]]; then
     conjur_account=$account
 fi
 
 read -r -p "Conjur appliance URL [$conjur_appliance_url]: " url
 # if url is not empty and is not equal to conjur_appliance_url, use url
-if [ ! -z "$url" && "$url" != "$conjur_appliance_url" ]; then
+if [[ ! -z "$url" && "$url" != "$conjur_appliance_url" ]]; then
     conjur_appliance_url=$url
 fi
 
